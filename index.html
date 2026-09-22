@@ -3,7 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>jordan / dev</title>
+
+<!-- === SEO / findability === -->
+<title>Syed Ateef — Frontend Developer</title>
+<meta name="description" content="Frontend developer shipping fast, accessible, tested interfaces for small product teams. Portfolio, case studies, and contact.">
+<meta property="og:title" content="Syed Ateef — Frontend Developer">
+<meta property="og:description" content="I ship interfaces that pass their tests and work for everyone — fast.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://syedateef-07.github.io">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Syed Ateef — Frontend Developer">
+<meta name="twitter:description" content="I ship interfaces that pass their tests and work for everyone — fast.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -41,6 +52,7 @@
   .link-btn:hover{ border-color:#3d424f; }
   .link-btn.primary{ background:var(--cobalt); border-color:var(--cobalt); }
   .link-btn.primary:hover{ background:var(--cobalt-dim); }
+  .links-note{ margin-top:14px; font-size:13px; color:var(--text-muted); }
 
   .section{ padding:50px 0; border-top:1px solid var(--line); }
   .section-label{
@@ -58,6 +70,16 @@
     .section{ padding:40px 0; }
     footer{ padding:44px 0 60px; }
   }
+
+  /* Contact form */
+  #contact-form input, #contact-form textarea{
+    background:var(--surface); border:1px solid var(--line); border-radius:8px;
+    padding:12px 14px; color:var(--text); font-family:'Inter',sans-serif; font-size:15px;
+  }
+  #contact-form button[type="submit"]:disabled{ opacity:0.6; cursor:not-allowed; }
+  #form-status{ margin-top:12px; font-size:14px; }
+  #form-status.success{ color:var(--green); }
+  #form-status.error{ color:#ff6b6b; }
 </style>
 </head>
 <body>
@@ -69,11 +91,12 @@
     <p class="sub">Frontend developer for small product teams that need someone who can take a rough idea to something real in production &mdash; without breaking it for the next person who uses it.</p>
 
     <div class="links">
-      <a class="link-btn primary" href="https://calendly.com/syedatifsyed07/30min">Book a call &rarr;</a>
+      <a class="link-btn primary" href="https://calendly.com/syedatifsyed07/30min">Book a call with me &rarr;</a>
       <a class="link-btn" href="https://www.linkedin.com/in/syed-ateef-4b8828346/">LinkedIn</a>
       <a class="link-btn" href="https://github.com/SyedAteef-07">GitHub</a>
       <a class="link-btn" href="https://drive.google.com/file/d/1OKRDFGl15orlAeB7MaP-pz4eIRkWqxtr/view">CV / Resume</a>
     </div>
+    <p class="links-note">Hiring, or just want to talk shop? Any of the above reaches me directly.</p>
   </header>
 
   <section class="section">
@@ -81,10 +104,61 @@
     <p>Case studies and future posts will live here as the portfolio build continues &mdash; this section grows over the rest of the internship.</p>
   </section>
 
+  <section class="section" id="contact">
+    <div class="section-label">GET IN TOUCH</div>
+    <p style="margin-bottom:20px;">Have a role that fits, or just want to talk shop? Send a note and it'll land straight in my inbox.</p>
+
+    <form id="contact-form" action="https://formspree.io/f/xkjnyodb" method="POST" style="display:flex; flex-direction:column; gap:14px; max-width:420px;">
+      <input type="text" name="name" placeholder="Your name" required>
+      <input type="email" name="email" placeholder="Your email" required>
+      <textarea name="message" placeholder="What's on your mind?" required rows="4"></textarea>
+      <button type="submit" style="background:#3D5AFE; color:#fff; border:none; border-radius:9px; padding:14px 20px; font-family:'Inter',sans-serif; font-weight:600; font-size:15px; cursor:pointer;">Send message &rarr;</button>
+      <div id="form-status"></div>
+    </form>
+  </section>
+
   <footer>
     jordan / dev &mdash; General AI Fluency Track, FlyRank
   </footer>
 </div>
+
+<script>
+  // Prevents double-submission: disables the button and shows status
+  // the instant the form is submitted, re-enabling only on error.
+  const form = document.getElementById('contact-form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      const status = document.getElementById('form-status');
+      if (btn.disabled) return; // hard stop against double-fire
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      status.textContent = '';
+      status.className = '';
+
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(response => {
+        if (response.ok) {
+          status.textContent = 'Message sent — thank you!';
+          status.className = 'success';
+          form.reset();
+          btn.textContent = 'Send message \u2192';
+        } else {
+          throw new Error('Submission failed');
+        }
+      }).catch(() => {
+        status.textContent = 'Something went wrong — please try again or email me directly.';
+        status.className = 'error';
+        btn.disabled = false;
+        btn.textContent = 'Send message \u2192';
+      });
+    });
+  }
+</script>
 
 </body>
 </html>
