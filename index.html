@@ -11,12 +11,22 @@
 <meta property="og:description" content="I ship interfaces that pass their tests and work for everyone — fast.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://syedateef-07.github.io">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://syedateef-07.github.io/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Syed Ateef — Frontend Developer">
 <meta name="twitter:description" content="I ship interfaces that pass their tests and work for everyone — fast.">
+<meta name="twitter:image" content="https://syedateef-07.github.io/og-image.png">
+
+<!-- === Favicon === -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- === Cloudflare Web Analytics === -->
+<script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "da6a1d30413e4da491ba8c8b36a58f89"}'></script>
+<!-- End Cloudflare Web Analytics -->
+
 <style>
   :root{
     --bg: #14161A; --surface: #1B1E25; --line: #2C303A;
@@ -62,6 +72,7 @@
   .section p{ color:var(--text-muted); font-size:16px; line-height:1.6; }
 
   footer{ padding:60px 0 90px; color:var(--text-muted); font-size:13px; font-family:'JetBrains Mono', monospace; }
+  footer .badge-slot{ margin-top:18px; }
 
   @media (max-width:480px){
     .wrap{ padding:0 20px; }
@@ -71,7 +82,6 @@
     footer{ padding:44px 0 60px; }
   }
 
-  /* Contact form */
   #contact-form input, #contact-form textarea{
     background:var(--surface); border:1px solid var(--line); border-radius:8px;
     padding:12px 14px; color:var(--text); font-family:'Inter',sans-serif; font-size:15px;
@@ -121,19 +131,20 @@
 
   <footer>
     jordan / dev &mdash; General AI Fluency Track, FlyRank
+    <!-- === FlyRank graduate badge goes here once capstone is accepted and a real Credential ID exists ===
+         Generate at https://internship-badge.netlify.app/ with your real Credential ID, then replace this comment. -->
+    <div class="badge-slot"><!-- badge snippet goes here --></div>
   </footer>
 </div>
 
 <script>
-  // Prevents double-submission: disables the button and shows status
-  // the instant the form is submitted, re-enabling only on error.
   const form = document.getElementById('contact-form');
   if (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       const btn = form.querySelector('button[type="submit"]');
       const status = document.getElementById('form-status');
-      if (btn.disabled) return; // hard stop against double-fire
+      if (btn.disabled) return;
       btn.disabled = true;
       btn.textContent = 'Sending...';
       status.textContent = '';
